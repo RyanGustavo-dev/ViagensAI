@@ -35,9 +35,8 @@ def get_engine_url():
 # add your model's MetaData object here
 # for 'autogenerate' support
 # from myapp import mymodel
+from app.models import *
 # target_metadata = mymodel.Base.metadata
-
-from app.models.clienteModel import ClientModel
 config.set_main_option('sqlalchemy.url', get_engine_url())
 target_db = current_app.extensions['migrate'].db
 

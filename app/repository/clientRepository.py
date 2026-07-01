@@ -6,10 +6,10 @@ from app.models.clienteModel import ClientModel
 class ClientRepository:
 
     def get_all(self):
-        return ClientModel.query.filter_by(deleted_at = not None).all()
+        return ClientModel.query.filter_by(ClientModel.deleted_at != None).all()
     
     def get_by_id(self, client_id:uuid4):
-        return ClientModel.query.get(client_id)
+        return ClientModel.query.get(client_id).filter_by(ClientModel.deleted_at != None).first()
     
     def get_by_email(self, email: str):
         return ClientModel.query.filter_by(email=email).first()

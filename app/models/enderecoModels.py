@@ -1,7 +1,7 @@
 from app.models.defaultModels import TableDefault
 from sqlalchemy import Column, String
 
-class EnderecoModels(TableDefault):
+class EnderecoModel(TableDefault):
     __tablename__ =  "enderecos"
 
     cep = Column(String(), nullable=False)

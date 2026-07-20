@@ -1,8 +1,7 @@
 import uuid
 from app.extension import db
 from datetime import datetime
-from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy import Column, DateTime
+from sqlalchemy import Column, DateTime, UUID
 
 class TableDefault(db.Model):
     __tablename__ = "inital_default"

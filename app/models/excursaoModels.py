@@ -16,5 +16,5 @@ class Excursaomodel(TableDefault):
     onibus_id = Column(UUID(as_uuid=True), ForeignKey("onibus.id"), nullable=False)
 
     destino = relationship("EnderecoModel")
-    onibus = relationship("OnibusModel", back_populates="excursoes")
+    onibus = relationship("OnibusModel", back_populates="excursao")
     vendas = relationship("VendaModel", back_populates="excursao")

@@ -10,7 +10,7 @@ class ClienteModel(TableDefault):
     telefone = Column(String, nullable=True)
     email = Column(String, nullable=True)
 
-    titular_id = Column(Integer, ForeignKey("clientes.id"), nullable=True)
+    titular_id = Column(UUID(as_uuid=True), ForeignKey("clientes.id"), nullable=True)
 
     endereco_id = Column(UUID(as_uuid=True), ForeignKey("enderecos.id"), nullable=True)
     endereco = relationship("EnderecoModel")

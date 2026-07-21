@@ -7,7 +7,7 @@ class VendaModel(TableDefault):
     __tablename__ = "vendas"
 
     id = Column(UUID(as_uuid=True), primary_key=True, index=True)
-    excursao_id = Column(UUID(as_uuid=True), ForeignKey("excursoes.id"), nullable=False)
+    excursao_id = Column(UUID(as_uuid=True), ForeignKey("excursao.id"), nullable=False)
     cliente_titular_id = Column(UUID(as_uuid=True), ForeignKey("clientes.id"), nullable=False) # O pagador
     
     valor_total = Column(Float, nullable=False)

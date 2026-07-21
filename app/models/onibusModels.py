@@ -4,7 +4,7 @@ from sqlalchemy.orm import relationship
 
 
 class OnibusModel(TableDefault):
-    __tablename__ = "onbius"
+    __tablename__ = "onibus"
 
     descricao = Column(String, nullable=False)
     capacidade_assento = Column(Integer, nullable=True)

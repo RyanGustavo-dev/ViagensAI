@@ -1,0 +1,16 @@
+services:
+  db:
+    image: postgres:17
+    container_name: viagensai
+    restart: always
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: viagensdatabase
+    ports:
+      - "5400:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

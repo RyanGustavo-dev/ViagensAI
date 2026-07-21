@@ -5,7 +5,7 @@ from flask import make_response, request, Blueprint
 enderecoBP = Blueprint("endereco",__name__)
 
 class EnderecoController:
-    @enderecoBP.route("/endereco/create", methods=["POST"])
+    @enderecoBP.route("/enderecos", methods=["POST"])
     def createNewEndereco():
         try:
             data = request.json
@@ -18,7 +18,7 @@ class EnderecoController:
             response = Response(400, str(e), {})
             return make_response(response.toDict(), 400)
     
-    @enderecoBP.route("/endereco", methods=["GET"])
+    @enderecoBP.route("/enderecos", methods=["GET"])
     def getAllEndereco():
         try:
             bll = EnderecoBLL()
@@ -29,7 +29,7 @@ class EnderecoController:
             response = Response(400, str(e), {})
             return make_response(response.toDict(), 400)
         
-    @enderecoBP.route("/endereco/<id>", methods=["GET"])
+    @enderecoBP.route("/enderecos/<id>", methods=["GET"])
     def getEnderecoById(id):
         try:
             bll = EnderecoBLL()
@@ -40,7 +40,7 @@ class EnderecoController:
             response = Response(400, str(e), {})
             return make_response(response.toDict(), 400)
 
-    @enderecoBP.route("/endereco/edit/<id>", methods=["PUT"])
+    @enderecoBP.route("/enderecos/<id>", methods=["PUT"])
     def editEndereco(id):
         try:
             data = request.json
@@ -55,7 +55,7 @@ class EnderecoController:
             response = Response(400, str(e), {})
             return make_response(response.toDict(), 400)
     
-    @enderecoBP.route("/endereco/delete/<id>", methods=["DELETE"])
+    @enderecoBP.route("/enderecos/<id>", methods=["DELETE"])
     def deleteEnderecoByID(id):
         try:
             bll = EnderecoBLL()

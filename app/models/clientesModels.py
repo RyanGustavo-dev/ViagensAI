@@ -15,3 +15,14 @@ class ClienteModel(TableDefault):
     endereco_id = Column(UUID(as_uuid=True), ForeignKey("enderecos.id"), nullable=True)
     endereco = relationship("EnderecoModel")
     acompanhantes = relationship("ClienteModel")
+
+    def toDict(self):
+        return {
+            "id": str(self.id),
+            "nome": self.nome,
+            "cpf": self.cpf,
+            "telefone": self.telefone,
+            "email": self.email,
+            "titular_id": str(self.titular_id) if self.titular_id else None,
+            "endereco_id": str(self.endereco_id) if self.endereco_id else None
+        }

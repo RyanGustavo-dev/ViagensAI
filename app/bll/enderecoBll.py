@@ -1,5 +1,6 @@
 from app.extension import db
 from app.models.enderecoModels import EnderecoModel
+from datetime import datetime
 
 class EnderecoBLL:
 
@@ -45,6 +46,8 @@ class EnderecoBLL:
             oldEndereco.cidade = data.get("cidade")
         if data.get("estado"):
             oldEndereco.estado = data.get("estado")
+
+        oldEndereco.updated_at(datetime.now)
         
         db.session.commit()
     

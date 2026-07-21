@@ -1,5 +1,6 @@
 from app.extension import db
 from app.models.clientesModels import ClienteModel
+from datetime import datetime
 
 class clienteBLL:
 
@@ -51,6 +52,8 @@ class clienteBLL:
         client.email = data.get("email", client.email)
         client.titular_id = data.get("titular_id", client.titular_id)
         client.endereco_id = data.get("endereco_id", client.endereco_id)
+
+        client.updated_at(datetime.now)
 
         db.session.commit()
 

@@ -10,3 +10,10 @@ class OnibusModel(TableDefault):
     capacidade_assento = Column(Integer, nullable=True)
 
     excursoes = relationship("ExcursaoModel", back_populates="onibus")
+
+    def toDict(self):
+        return {
+            "id": self.id,
+            "descrição": self.descricao,
+            "capacidade_assento": self.capacidade_assento
+        }

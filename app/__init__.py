@@ -13,5 +13,6 @@ def create_app():
     migrate.init_app(app, db)
 
     #REGISTRAR BLUEPRINTS
+    from app.controller.clienteController import clienteController
 
     return app

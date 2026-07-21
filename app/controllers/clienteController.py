@@ -1,12 +1,11 @@
-from bll.clienteBll import clienteBLL
-from models.responseModels import Response
-from run import app
-from flask import make_response, request
+from app.bll.clienteBll import clienteBLL
+from app.models.responseModels import Response
+from flask import make_response, request, Blueprint
 
-
+clientBP = Blueprint("cliente",__name__)
 class clienteController:
 
-    @app.route("/user/create", methods=["POST"])
+    @clientBP.route("/user/create", methods=["POST"])
     def createNewUser():
         try:
             data = request.json

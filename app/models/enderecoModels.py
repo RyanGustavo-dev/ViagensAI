@@ -11,3 +11,15 @@ class EnderecoModel(TableDefault):
     bairro = Column(String, nullable=False)
     cidade = Column(String, nullable=False)
     estado = Column(String, nullable=False)
+
+    def toDict(self):
+        return {
+            "id": self.id,
+            "cep": self.cep,
+            "logradouro": self.logradouro,
+            "numero": self.numero,
+            "complemento": self.complemento,
+            "bairro": self.bairro,
+            "cidade": self.cidade,
+            "estado": self.estado
+        }

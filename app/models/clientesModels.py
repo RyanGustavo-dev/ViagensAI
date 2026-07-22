@@ -1,5 +1,5 @@
 from app.models.defaultModels import TableDefault
-from sqlalchemy import Column, String, ForeignKey, Integer,UUID
+from sqlalchemy import Column, String, ForeignKey, Integer,UUID, Boolean
 from sqlalchemy.orm import relationship
 
 class ClienteModel(TableDefault):

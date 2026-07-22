@@ -18,3 +18,16 @@ class Excursaomodel(TableDefault):
     destino = relationship("EnderecoModel")
     onibus = relationship("OnibusModel", back_populates="excursao")
     vendas = relationship("VendaModel", back_populates="excursao")
+
+    def toDict(self):
+        return {
+            "id": str(self.id),
+            "codigo": self.codigo,
+            "titulo": self.titulo,
+            "hotel": self.hotel,
+            "valor_por_pessoa": self.valor_por_pessoa,
+            "data_saida": self.data_saida.isoformat() if self.data_saida else None,
+            "data_retorno": self.data_retorno.isoformat() if self.data_retorno else None,
+            "destino_id": str(self.destino_id),
+            "onibus_id": str(self.onibus_id)
+        }

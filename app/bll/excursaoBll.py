@@ -2,6 +2,8 @@ from app.extension import db
 from app.models.excursaoModels import Excursaomodel
 from app.models.vendaModels import VendaModel
 from app.models.clientesModels import ClienteModel
+from app.models.reservaModels import ReservaModel
+from app.models.onibusModels import OnibusModel
 from datetime import datetime
 
 class ExcursaoBLL:
@@ -87,8 +89,58 @@ class ExcursaoBLL:
         db.session.commit()
 
         return {"id": str(excursao.id), "message": "Excursão deletada com sucesso!"}
-    
+
+    def listaPassageiros(self, id):
+        excursao = db.session.query(Excursaomodel).filter(Excursaomodel.id == id).first()
+        if not excursao:
+            raise Exception("Excursão não encontrada")
+
+        resultados = (
+            db.session.query(ClienteModel, ReservaModel.numero_assento)
+            .join(ReservaModel, ReservaModel.passageiro_id == ClienteModel.id)
+            .join(VendaModel, VendaModel.id == ReservaModel.venda_id)
+            .filter(VendaModel.excursao_id == id)
+            .all()
+        )
+
+        listaViagem = []
+
+        for cliente, assento in resultados:
+            listaViagem.append({
+                "nome":cliente.nome,
+                "cpf":cliente.cpf,
+                "telefone":cliente.telefone,
+                "assento": assento
+            })
+
+        return listaViagem
         
+    def listaAssentos(self, id):
+        excursao = db.session.query(Excursaomodel).filter(Excursaomodel.id == id).first()
+        if not excursao:
+            raise Exception("Excursão não encontrada")
+
+        capacidade_atual = excursao.onibus.capacidade_assentos
+
+        resultados = (
+            db.session.query(ReservaModel.numero_assento)
+            .join(VendaModel, VendaModel.id == ReservaModel.venda_id)
+            .filter(VendaModel.excursao_id == id)
+            .filter(VendaModel.status_pagamento != "CANCELADO")
+            .all()
+        )
+
+        lista_ouculpados = [assentos[0] for assentos in resultados]
+        mapa_onibus =[]
+
+        for numero in range(1, capacidade_atual+1):
+            mapa_onibus.append({
+                "assento":numero,
+                "status":"OUCUPADO" if numero in lista_ouculpados else "LIVRE"
+            })
+
+        return mapa_onibus
+
         
 
         

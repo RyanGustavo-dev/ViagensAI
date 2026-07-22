@@ -90,7 +90,7 @@ class ExcursaoBLL:
 
         return {"id": str(excursao.id), "message": "Excursão deletada com sucesso!"}
 
-    def listaPassageiros(self, id):
+    def getListaPassageiros(self, id):
         excursao = db.session.query(Excursaomodel).filter(Excursaomodel.id == id).first()
         if not excursao:
             raise Exception("Excursão não encontrada")
@@ -115,7 +115,7 @@ class ExcursaoBLL:
 
         return listaViagem
         
-    def listaAssentos(self, id):
+    def getListaAssentos(self, id):
         excursao = db.session.query(Excursaomodel).filter(Excursaomodel.id == id).first()
         if not excursao:
             raise Exception("Excursão não encontrada")

@@ -17,3 +17,13 @@ class VendaModel(TableDefault):
     titular = relationship("ClienteModel")
     excursao = relationship("ExcursaoModel", back_populates="vendas")
     reservas = relationship("ReservaModel", back_populates="venda", cascade="all, delete-orphan")
+
+    def toDict(self):
+        return {
+            "id": str(self.id),
+            "excursao_id": str(self.excursao_id),
+            "cliente_titular_id": str(self.cliente_titular_id),
+            "valor_total": self.valor_total,
+            "status_pagamento": self.status_pagamento,
+            "data_venda": self.data_venda.isoformat() if self.data_venda else None
+        }

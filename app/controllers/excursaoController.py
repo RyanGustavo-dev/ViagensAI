@@ -32,7 +32,7 @@ class ExcursaoController:
             bll = ExcursaoBLL()
 
             resultado = bll.getAllExcursao(date_start,date_end,destino_id,codigo)
-            return make_response(200, resultado)
+            return make_response(resultado, 200)
         
         except Exception as e:
 
@@ -44,7 +44,7 @@ class ExcursaoController:
         try:
             bll = ExcursaoBLL()
             resultado = bll.getExcursaoById(id)
-            return make_response(200, resultado)
+            return make_response(resultado, 200)
         
         except Exception as e:
         

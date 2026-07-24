@@ -15,7 +15,7 @@ class VendaModel(TableDefault):
     data_venda = Column(DateTime, default=datetime.now())
 
     titular = relationship("ClienteModel")
-    excursao = relationship("ExcursaoModel", back_populates="vendas")
+    excursao = relationship("Excursaomodel", back_populates="vendas")
     reservas = relationship("ReservaModel", back_populates="venda", cascade="all, delete-orphan")
 
     def toDict(self):

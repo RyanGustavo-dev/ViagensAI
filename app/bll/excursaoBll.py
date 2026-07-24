@@ -10,17 +10,25 @@ class ExcursaoBLL:
     
     def createNewExcusao(data):
 
-        excur = db.session.query(Excursaomodel).filter(Excursaomodel.codigo == data.get("codigo"))
+        excur = db.session.query(Excursaomodel).filter(Excursaomodel.codigo == data.get("codigo")).first()
         if excur:
-            raise Exception(f"O Codigo {data.get("codigo")} já existe!")
+            raise Exception(f"O Codigo {data.get('codigo')} já existe!")
+
+        data_saida = data.get("data_saida")
+        data_retorno = data.get("data_retorno")
+
+        if isinstance(data_saida, str) and data_saida:
+            data_saida = datetime.fromisoformat(data_saida.replace("Z", "+00:00"))
+        if isinstance(data_retorno, str) and data_retorno:
+            data_retorno = datetime.fromisoformat(data_retorno.replace("Z", "+00:00"))
         
         newExcursao = Excursaomodel(
             codigo = data.get("codigo"),
             titulo = data.get("titulo", ""),
             hotel = data.get("hotel"),
             valor_por_pessoa = data.get("valor_por_pessoa", ""),
-            data_saida = data.get("data_saida", ""),
-            data_retorno = data.get("data_retorno", ""), 
+            data_saida = data_saida,
+            data_retorno = data_retorno, 
             destino_id = data.get("destino_id", ""),
             onibus_id = data.get("onibus_id", "")
         )
@@ -31,29 +39,19 @@ class ExcursaoBLL:
         return newExcursao.toDict()
     
     def getAllExcursao(self, date_start, date_end, destino_id, codigo):
-        excusao_date_start = db.session.query(Excursaomodel).filter(Excursaomodel.data_saida >= date_start).all()
-        if excusao_date_start:
-            return [exc.toDict() for exc in excusao_date_start]
-        
-        excursao_date_end = db.session.query(Excursaomodel).filter(Excursaomodel.data_retorno <= date_end).all()
-        if excursao_date_end:
-            return [exc.toDict() for exc in excursao_date_end]
-        
-        excursao_date_range = db.session.query(Excursaomodel).filter(Excursaomodel.data_saida >= date_start, Excursaomodel.data_retorno <= date_end).all()
-        if excursao_date_range:
-            return [exc.toDict() for exc in excursao_date_range]
-        
-        excursao_destino = db.session.query(Excursaomodel).filter(Excursaomodel.destino_id == destino_id).all()
-        if excursao_destino:
-            return [exc.toDict() for exc in excursao_destino]
-        
-        excursao_codigo = db.session.query(Excursaomodel).filter(Excursaomodel.codigo == codigo).all()
-        if excursao_codigo:
-            return [exc.toDict() for exc in excursao_codigo]
+        query = db.session.query(Excursaomodel)
 
-        excursao = db.session.query(Excursaomodel).all()
-        if excursao:
-            return [exc.toDict() for exc in excursao]
+        if date_start:
+            query = query.filter(Excursaomodel.data_saida >= date_start)
+        if date_end:
+            query = query.filter(Excursaomodel.data_retorno <= date_end)
+        if destino_id:
+            query = query.filter(Excursaomodel.destino_id == destino_id)
+        if codigo:
+            query = query.filter(Excursaomodel.codigo.ilike(f"%{codigo}%"))
+
+        excursao = query.all()
+        return [exc.toDict() for exc in excursao]
 
     def getExcursaoById(self, id):
         excursao = db.session.query(Excursaomodel).filter(Excursaomodel.id == id).first()
@@ -120,7 +118,7 @@ class ExcursaoBLL:
         if not excursao:
             raise Exception("Excursão não encontrada")
 
-        capacidade_atual = excursao.onibus.capacidade_assentos
+        capacidade_atual = excursao.onibus.capacidade_assento
 
         resultados = (
             db.session.query(ReservaModel.numero_assento)

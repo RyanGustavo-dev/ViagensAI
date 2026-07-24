@@ -26,7 +26,7 @@ class OnibusController:
             bll = OnibusBll()
 
             result = bll.getAllOnibus()
-            return make_response(200, result)
+            return make_response(result, 200)
         
         except Exception as e:
             response = Response(400, str(e), {})
